@@ -1,0 +1,47 @@
+rails new dojo_ninjas
+rails g model Dojo name:string city:string state:string
+rake db:migrate
+rails c
+Dojo.create(name:"CodingDojo Silicon Valley", city:"Mountain View", state:"CA")
+Dojo.create(name:"CodingDojo Seattle", city:"Seattle", state:"WA")
+Dojo.create(name:"CodingDojo Silicon Valley", city:"Mountain View", state:"CA")
+rails g model Ninja first_name:string last_name:string dojo:references
+Dojo.find(1).destroy
+Dojo.destroy_all
+dojo1 = Dojo.new(name:"Los Cobra", city:"Machali", state:"")
+dojo1.valid?
+dojo1.errors.full_messages
+dojo1 = Dojo.new(name:"Los Cobra", city:"Machali", state:"RM")
+dojo1 = Dojo.new(name:"Alma Negra", city:"", state:"TR")
+dojo1.save
+dojo1.errors.full_messages
+dojo1 = Dojo.new(name:"Alma Negra", city:"Los Angeles", state:"TR")
+dojo1.save
+dojo1 = Dojo.new(name:"", city:"Los Angeles", state:"TR")
+dojo1.errors.full_messages
+dojo1 = Dojo.new(name:"Abrazo de suegro", city:"Los Angeles", state:"TR")
+dojo1.save
+Ninja.create(first_name:"Manolito", last_name:"Estrada", dojo:Dojo.first)
+Ninja.create(first_name:"Camilita", last_name:"Loyola", dojo:Dojo.first)
+Ninja.create(first_name:"Amalia", last_name:"Piedrita en el Ojo", dojo:Dojo.first)
+Ninja.create(first_name:"Pedro", last_name:"Tres dedos", dojo:Dojo.second)
+Ninja.create(first_name:"Jaimito", last_name:"Rosal", dojo:Dojo.second)
+Ninja.create(first_name:"Sofia", last_name:"Risa torcida", dojo:Dojo.second)
+Ninja.create(first_name:"Martita", last_name:"Ceja al viento", dojo:Dojo.third)
+Ninja.create(first_name:"Osvaldito", last_name:"Valencia", dojo:Dojo.third)
+Ninja.create(first_name:"Leandrito", last_name:"Ombligo triste", dojo:Dojo.third)
+# Ninjas del primer dojo
+Dojo.first.ninjas
+# Ninjas del segundo dojo
+Dojo.second.ninjas
+#Ninjas del tercer Dojo
+Dojo.third.ninjas
+#Nombres de Ninjas del segundo dojo y ordenados de manera descendiente
+Dojo.second.ninjas.order(first_name: :desc)
+#Elimine el segundo dojo. ¿Cómo podrías ajustar tu modelo para que automáticamente elimine todos los ninjas asociados con ese dojo?
+ninjas_out = Ninja.where(dojo:Dojo.second)
+ninjas_out.destroy_all
+Dojo.second.destroy
+
+
+
